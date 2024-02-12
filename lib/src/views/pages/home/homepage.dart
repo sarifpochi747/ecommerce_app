@@ -71,7 +71,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
-                                  color: Colors.grey,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.all(Radius.circular(16))
+                                  ),
                                   width: MediaQuery.of(context).size.width*0.6,
                                   height: MediaQuery.of(context).size.height,
                                 ),
@@ -102,9 +105,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      color: Colors.grey,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius: BorderRadius.circular(16)
+                                      ),
                                       height: MediaQuery.of(context).size.height,
                                       width: MediaQuery.of(context).size.width*0.3,
+                                      
                                     ),
                                   );
                                 },
