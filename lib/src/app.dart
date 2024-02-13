@@ -1,26 +1,26 @@
 
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ecommerce_app/src/Provider/mian_screen_provider.dart';
 import 'package:ecommerce_app/src/views/pages/cartpage/cartpage.dart';
 import 'package:ecommerce_app/src/views/pages/home/homepage.dart';
 import 'package:ecommerce_app/src/views/pages/profilepage/profilepage.dart';
-import 'package:ecommerce_app/src/views/share/bottomNavWIdget.dart';
+import 'package:ecommerce_app/src/views/share/bottom_nav_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-
   List<Widget>  pageList = const [
     HomePage(),
     CartPage(),
     ProfilePage()
   ];
-
   @override
   Widget build(BuildContext context) {
-    int pageIndex = 0;
-    return Scaffold(
+  return Consumer<MainScreenNotifier>(builder: (_,mainScreen,__){
+      return Scaffold(
       backgroundColor: Colors.white30,
       bottomNavigationBar:SafeArea(
         
@@ -35,21 +35,31 @@ class MyApp extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 BottomNavWidget(icon: Ionicons.home,Ontap: (){
-                  pageIndex = 0;
+                  mainScreen.set(0);
                 }),
-                BottomNavWidget(icon: Ionicons.search,Ontap: (){}),
-                BottomNavWidget(icon: Ionicons.planet,Ontap: (){}),
-                BottomNavWidget(icon: Ionicons.card,Ontap: (){}),
-                BottomNavWidget(icon: Ionicons.person,Ontap: (){}),
+                BottomNavWidget(icon: Ionicons.search,Ontap: (){
+                  mainScreen.set(1);
+                }),
+                BottomNavWidget(icon: Ionicons.planet,Ontap: (){
+                  mainScreen.set(2);
+                }),
+                BottomNavWidget(icon: Ionicons.card,Ontap: (){
+                  mainScreen.set(3);
+                }),
+                BottomNavWidget(icon: Ionicons.person,Ontap: (){
+
+                }),
               ],
             ),
           ),  
         ),
       ),
       body: SafeArea(
-        child: pageList.elementAt(pageIndex)
+        child: pageList.elementAt(mainScreen.get())
         )
       );
+    }
+  );
   } 
 }
 
