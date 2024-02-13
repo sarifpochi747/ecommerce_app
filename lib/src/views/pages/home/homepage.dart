@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ecommerce_app/src/views/pages/product_cart/product_cart.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -68,16 +69,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             scrollDirection: Axis.horizontal,
                             itemCount: 6,
                             itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.all(Radius.circular(16))
-                                  ),
-                                  width: MediaQuery.of(context).size.width*0.6,
-                                  height: MediaQuery.of(context).size.height,
-                                ),
+                              return ProductCart(
+                                id: "1", 
+                                price: "\$200", 
+                                name: "Adidast AMD", 
+                                category: "Men Shoes", 
+                                img: "dd"
                               );
                             },
                           ),
