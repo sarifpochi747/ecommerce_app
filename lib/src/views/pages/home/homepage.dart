@@ -69,12 +69,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                             scrollDirection: Axis.horizontal,
                             itemCount: 6,
                             itemBuilder: (BuildContext context, int index) {
-                              return ProductCart(
-                                id: "1", 
-                                price: "\$200", 
-                                name: "Adidast AMD", 
-                                category: "Men Shoes", 
-                                img: "dd"
+                              return ProductCart(id: "101", 
+                              price: "\$200", 
+                              name: "Adidas AMD", 
+                              category: "Men Shoes", 
+                              img: "https://i8.amplience.net/i/jpl/jd_EG4958_a?qlt=92"
                               );
                             },
                           ),
