@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:ecommerce_app/src/views/pages/product/product_cart.dart';
 import 'package:ecommerce_app/src/views/pages/product/product_list.dart';
 import 'package:ecommerce_app/src/views/widgets/icon_and_text_widget.dart';
 import 'package:flutter/material.dart';
