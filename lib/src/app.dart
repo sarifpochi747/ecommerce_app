@@ -4,6 +4,7 @@
 import 'package:ecommerce_app/src/Provider/mian_screen_provider.dart';
 import 'package:ecommerce_app/src/views/pages/cartpage/cartpage.dart';
 import 'package:ecommerce_app/src/views/pages/home/homepage.dart';
+import 'package:ecommerce_app/src/views/pages/product/product_detail.dart';
 import 'package:ecommerce_app/src/views/pages/profilepage/profilepage.dart';
 import 'package:ecommerce_app/src/views/widgets/bottom_nav_widget.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       bottomNavigationBar: SafeArea(child: _bottomNavigationBar(mainScreen)),
       
       body: SafeArea(
-        child: pageList.elementAt(mainScreen.get())
+        child: ProductDetail()
         )
       );
     }

@@ -87,6 +87,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     );
   }
 
+
+
   Widget _cartPopular(){
     return Container(
       margin: EdgeInsets.all(10),
@@ -108,6 +110,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           // text section
           Expanded(
             child: Container(
+              height: 100,
               width: MediaQuery.of(context).size.width*0.5,
               decoration: BoxDecoration(
                 color: Colors.white,

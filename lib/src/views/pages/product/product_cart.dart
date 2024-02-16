@@ -20,12 +20,12 @@ class _ProductCartState extends State<ProductCart> {
           margin: EdgeInsets.fromLTRB(0,0,15,0),
           //width: MediaQuery.of(context).size.width*0.8,
           decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage("https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?cs=srgb&dl=pexels-ella-olsson-1640772.jpg&fm=jpg")
-              )
+            color: Colors.black,
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            image: DecorationImage(
+                fit: BoxFit.cover,
+              image: AssetImage("lib/assets/images/food.jpg")              
+            )
           ),
         ),
         Align(
@@ -99,4 +99,9 @@ class _ProductCartState extends State<ProductCart> {
       ],
     );
   }
+
+
+
+
+
 }
