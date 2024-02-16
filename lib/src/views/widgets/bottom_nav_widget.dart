@@ -15,6 +15,7 @@ class BottomNavWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      
       onTap: Ontap,
       child: SizedBox(
         height: 36,

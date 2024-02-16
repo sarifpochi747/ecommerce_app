@@ -38,6 +38,7 @@ dependencies:
   ionicons: ^0.2.2
   provider: ^6.1.1
   cached_network_image: ^3.3.1
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
   flutter_test:

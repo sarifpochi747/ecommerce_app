@@ -5,14 +5,15 @@ import 'package:ecommerce_app/src/Provider/mian_screen_provider.dart';
 import 'package:ecommerce_app/src/views/pages/cartpage/cartpage.dart';
 import 'package:ecommerce_app/src/views/pages/home/homepage.dart';
 import 'package:ecommerce_app/src/views/pages/profilepage/profilepage.dart';
-import 'package:ecommerce_app/src/views/share/bottom_nav_widget.dart';
+import 'package:ecommerce_app/src/views/widgets/bottom_nav_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-  List<Widget>  pageList = const [
+  const MyApp({Key? key}) : super(key: key);
+  final List<Widget>  pageList = const [
     HomePage(),
     CartPage(),
     ProfilePage()
@@ -21,39 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
   return Consumer<MainScreenNotifier>(builder: (_,mainScreen,__){
       return Scaffold(
-      backgroundColor: Colors.white30,
-      bottomNavigationBar:SafeArea(
-        
-        child: Padding(padding: EdgeInsets.all(15),
-          child: Container(
-            padding: EdgeInsets.all(17),
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(16)
-            ),
-            child:Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BottomNavWidget(icon: Ionicons.home,Ontap: (){
-                  mainScreen.set(0);
-                }),
-                BottomNavWidget(icon: Ionicons.search,Ontap: (){
-                  mainScreen.set(1);
-                }),
-                BottomNavWidget(icon: Ionicons.planet,Ontap: (){
-                  mainScreen.set(2);
-                }),
-                BottomNavWidget(icon: Ionicons.card,Ontap: (){
-                  mainScreen.set(3);
-                }),
-                BottomNavWidget(icon: Ionicons.person,Ontap: (){
-
-                }),
-              ],
-            ),
-          ),  
-        ),
-      ),
+      backgroundColor: Color.fromARGB(255, 248, 245, 245),
+      bottomNavigationBar: SafeArea(child: _bottomNavigationBar(mainScreen)),
+      
       body: SafeArea(
         child: pageList.elementAt(mainScreen.get())
         )
@@ -61,5 +32,33 @@ class MyApp extends StatelessWidget {
     }
   );
   } 
+
+
+
+  Widget _bottomNavigationBar(MainScreenNotifier mainScreenNotifier){
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.black,
+      ),
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          BottomNavWidget(icon: Ionicons.home,Ontap: (){
+            mainScreenNotifier.set(0);
+          }),
+    
+          BottomNavWidget(icon: Ionicons.card,Ontap: (){
+            mainScreenNotifier.set(1);
+          }),
+          BottomNavWidget(icon: Ionicons.person,Ontap: (){
+            mainScreenNotifier.set(2);
+    
+          }),
+        ],
+      ),
+    );
+  }
+  
 }
 

@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:ecommerce_app/src/views/pages/product_cart/product_cart.dart';
+import 'package:ecommerce_app/src/views/pages/product/product_cart.dart';
+import 'package:ecommerce_app/src/views/pages/product/product_list.dart';
+import 'package:ecommerce_app/src/views/widgets/icon_and_text_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,138 +13,135 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
-  late final TabController _tabController = TabController(length: 3, vsync: this);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: <Widget>[
-            // Background Image
-            Container(
-              height: MediaQuery.of(context).size.height*(2/4),
-              padding: (EdgeInsets.fromLTRB(16,40,0,0)),
-              color: Colors.black,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      padding: EdgeInsets.fromLTRB(10,15,10,0),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Sarif Pochi",
+                    style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),
+                  ),
+                  Text("Thailand",
+                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal),
+                  )
+                ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.green[200]
+                ),
+                width: 50,
+                height: 50,
+                child: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                  size: 29,
+                ),
+              ),
+            ],
+          ),
+          ProductList(),
+          Container(
+           // color: Colors.amber,
+            padding: EdgeInsets.only(top: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Popular",style: TextStyle(fontSize: 21)),
+                SizedBox(width: 10,),
+                Text(".",style: TextStyle(fontSize: 20,color: Colors.grey)),
+                SizedBox(width: 10,),
+                Text("Food pairing",style: TextStyle(fontSize: 15,color: Colors.grey)),
+              ],
+            ),
+          ),
+          Expanded(
+            
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              
+              child: ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: 10,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return _cartPopular();
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _cartPopular(){
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: Row(
+        children: <Widget>[
+          //image section
+          Container(
+            height: 120,
+            width: 120,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              image: DecorationImage(
+                image: NetworkImage("https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?cs=srgb&dl=pexels-ella-olsson-1640772.jpg&fm=jpg"),
+                fit: BoxFit.cover
+              )
+            ),
+          ),
+
+          // text section
+          Expanded(
+            child: Container(
+              width: MediaQuery.of(context).size.width*0.5,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topRight:Radius.circular(10),
+                  bottomRight: Radius.circular(10)
+                )
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10,10,10,10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Athelic Shoes",
-                      style: TextStyle(color: Colors.white,fontSize: 42,fontWeight: FontWeight.bold)
-                    ),
-                    Text("Collection",
-                      style: TextStyle(color: Colors.white,fontSize: 42,fontWeight: FontWeight.bold)
-                    ),
-                    TabBar(
-                      indicatorColor: Colors.black,
-                      isScrollable: true,
-                      controller: _tabController,
-                      labelStyle: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.white),
-                      unselectedLabelColor: Colors.grey.withOpacity(0.6),
-                      tabs: const[
-                        Tab(text: "Men Shoes",),
-                        Tab(text: "Women Shoes",),
-                        Tab(text: "Kids Shoes",),
-                      ]
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.265),
-              child: Padding(
-                padding: const EdgeInsets.only(left:12.0),
-                child: TabBarView(
-                  controller: _tabController,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    //Men Shoes
-                    Column(
+                    Text("Nutritous fruit meal",style: TextStyle(fontSize: 18,color: Colors.black)),
+                    Text("With chiness characteristics",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                                      Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height*0.4,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 6,
-                            itemBuilder: (BuildContext context, int index) {
-                              return ProductCart(id: "101", 
-                              price: "\$200", 
-                              name: "Adidas AMD", 
-                              category: "Men Shoes", 
-                              img: "https://i8.amplience.net/i/jpl/jd_EG4958_a?qlt=92"
-                              );
-                            },
-                          ),
-                        ),
-                    
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              
-                              children: [
-                                Text("Latest Shoes",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
-                                Text("Show All",style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height*0.14,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 6,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius: BorderRadius.circular(16)
-                                      ),
-                                      height: MediaQuery.of(context).size.height,
-                                      width: MediaQuery.of(context).size.width*0.3,
-                                      
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        )
+                        IconAndTextWidget(icon: Icons.circle_sharp, text: "Normal", colors: Colors.grey, iconColor: Colors.yellow),
+                        SizedBox(width: 10,),
+                        IconAndTextWidget(icon: Icons.location_on, text: "1.7km", colors: Colors.grey, iconColor: Colors.green),
+                        SizedBox(width: 10,),
+                        IconAndTextWidget(icon: Icons.access_time, text: "32min", colors: Colors.grey, iconColor: Colors.red)
                       ],
-                    ),
-                    //Women Shoes
-                    Column(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height*0.405,
-                          color: Colors.green,
-                        )
-                      ],
-                    ),
-                    //Kid shoes
-                    Column(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height*0.405,
-                          color: Colors.red,
-                        )
-                      ],
-                    ),
+                    )
                   ],
                 ),
               ),
             ),
-          ],
-        ),
-        
-      )
-    );
+          )
+        ],
+      ),
+    ) ;
   }
 }
