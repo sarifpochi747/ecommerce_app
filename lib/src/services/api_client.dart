@@ -2,16 +2,13 @@
 
 // ignore_for_file: prefer_const_constructors
 
+import 'package:ecommerce_app/src/utils/app_contants.dart';
 import 'package:get/get.dart';
 
-class ApiClient extends GetConnect implements GetxService {
-  final String appBaseUrl;
-  late String token;
+class ApiClient extends GetConnect  {
+  late String token = "";
   late Map<String,String> mainHeaders;
-  ApiClient({
-    required this.appBaseUrl,
-  }){
-    baseUrl = appBaseUrl;
+  ApiClient(){
     mainHeaders = {
       "Content-type" : "application/json; charset=UTF-8",
       "Authorization" : "Bearer $token"
@@ -19,14 +16,17 @@ class ApiClient extends GetConnect implements GetxService {
   }
 
 
-
-  Future<Response> getData (String url) async{
-    try {
-      Response response = await get(url);
-      return response;
-    } catch (e) {
-      return Response(statusCode: 400,statusText:e.toString());
-    }
+  Future<Response> fetchData(String path) async {
+  try {
+    final url = AppConstants.BASE_URL+path;
+    print(url);
+    final response = await get(url);
+    return response;
+  } catch (e) {
+    print('Error: $e');
+    return Response(statusCode: 400, statusText: e.toString());
   }
+  }
+
 
 }

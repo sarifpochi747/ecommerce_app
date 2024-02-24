@@ -1,8 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ecommerce_app/src/controllers/popular_product_controller.dart';
+import 'package:ecommerce_app/src/controllers/recommend_product_controller.dart';
+import 'package:ecommerce_app/src/models/product_model.dart';
 import 'package:ecommerce_app/src/views/pages/product/product_list.dart';
 import 'package:ecommerce_app/src/views/widgets/icon_and_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,9 +16,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
-
+  
   @override
   Widget build(BuildContext context) {
+    Get.find<PopularProductController>().getPopularProductList(); 
+    Get.find<RecommendProductController>().getRecommendProductList(); 
     return Container(
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.fromLTRB(10,15,10,0),
@@ -58,7 +64,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Popular",style: TextStyle(fontSize: 21)),
+                Text("Recommend",style: TextStyle(fontSize: 21)),
                 SizedBox(width: 10,),
                 Text(".",style: TextStyle(fontSize: 20,color: Colors.grey)),
                 SizedBox(width: 10,),
@@ -72,14 +78,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               
-              child: ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(),
-                itemCount: 10,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return _cartPopular();
-                },
-              ),
+              child: GetBuilder<RecommendProductController>(builder: (recommendProduct){
+                return recommendProduct.isLoading?
+                  Center(
+                    child: CircularProgressIndicator(
+                      color:Colors.blue,
+                      strokeWidth: 10,
+                    ),
+                  ):ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: recommendProduct.recommendProduct.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _cartRecommendProduct(recommendProduct.recommendProduct.elementAt(index));
+                    },
+                  );
+              })
             ),
           )
         ],
@@ -89,7 +103,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
 
 
-  Widget _cartPopular(){
+  Widget _cartRecommendProduct(ProductModel recommendProduct){
+    late String firstDetail;
+    if(recommendProduct.description.length > 40){
+      firstDetail = recommendProduct.description.substring(0,30);
+    }
+
     return Container(
       margin: EdgeInsets.all(10),
       child: Row(
@@ -110,7 +129,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
           // text section
           Expanded(
             child: Container(
-              height: 100,
               width: MediaQuery.of(context).size.width*0.5,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -125,8 +143,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Nutritous fruit meal",style: TextStyle(fontSize: 18,color: Colors.black)),
-                    Text("With chiness characteristics",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                    Text(recommendProduct.name,style: TextStyle(fontSize: 18,color: Colors.black)),
+                    Text(
+                      recommendProduct.description.length <40 ? (recommendProduct.description):("$firstDetail..."),
+                      style: TextStyle(fontSize: 13,color: Colors.grey),
+                    ),
                                       Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

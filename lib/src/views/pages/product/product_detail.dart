@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ecommerce_app/src/app.dart';
+import 'package:ecommerce_app/src/controllers/total_product_controller.dart';
 import 'package:ecommerce_app/src/views/widgets/app_icon.dart';
 import 'package:ecommerce_app/src/views/widgets/expanable_text_widget.dart';
 import 'package:ecommerce_app/src/views/widgets/icon_and_text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key});
@@ -13,6 +16,8 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  TotalProductController totalProductController = Get.put(TotalProductController());
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +56,43 @@ class _ProductDetailState extends State<ProductDetail> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        AppIcon(icon: Icons.arrow_back_ios_new_rounded),
-        AppIcon(icon: Icons.shopping_cart_outlined)
+        
+        GestureDetector(
+          onTap: (){
+            Get.offAll(()=>MyApp());
+          },
+          child:AppIcon(icon: Icons.arrow_back_ios_new_rounded),
+        ),
+        GestureDetector(
+          onTap: (){
+            totalProductController.increaseQuantity();
+          },
+          child: Stack(
+            children: <Widget>[
+              AppIcon(icon: Icons.shopping_cart_outlined),
+              GetBuilder<TotalProductController>(builder: (totalProductController){
+                return Positioned(
+                  top: 20,
+                  left: 20,
+                  right: 0,
+                  child: Container(
+                    height: 25,
+                    width: 25,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(50)
+                    ),
+                    child: Center(
+                      child: Text(totalProductController.get().toString(), 
+                        style: TextStyle(fontSize: 15, color: Colors.white ,fontWeight: FontWeight.bold)
+                      ),
+                    ),
+                  ),
+                );
+              })
+            ],
+          ),
+        )
       ],
     );
   }
@@ -162,7 +202,9 @@ class _ProductDetailState extends State<ProductDetail> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                onTap: (){},
+                onTap: (){
+                  totalProductController.decreaseQuantity();
+                },
                 child: SizedBox(
                   child:Icon(Icons.remove),
                 ),
@@ -170,19 +212,27 @@ class _ProductDetailState extends State<ProductDetail> {
               SizedBox(
                 width: 15,
               ),
-              Text("0", style: TextStyle(fontSize: 18, color: Colors.black)),
+              GetBuilder<TotalProductController>(builder: (totalProductController){
+                return Text(totalProductController.get().toString(), style: TextStyle(fontSize: 18, color: Colors.black));
+              }),
               SizedBox(
                 width: 15,
               ),
               GestureDetector(
-                onTap: (){},
+                onTap: (){
+                  totalProductController.increaseQuantity();
+                },
                 child: SizedBox(
                   child:Icon(Icons.add),
                 ),
-              ),            ],
+              ),            
+            ],
           ),
         ),
         GestureDetector(
+          onTap:(){
+
+          },
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.green[300],

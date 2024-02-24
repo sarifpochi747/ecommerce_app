@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ecommerce_app/src/models/product_model.dart';
 import 'package:ecommerce_app/src/views/widgets/icon_and_text_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProductCart extends StatefulWidget {
-  final String imgPath = "lib/asset/food.jpg";
-  const ProductCart({super.key});
+  final String imgPath = "lib/assets/images/food.jpg";
+  final int position;
+  final ProductModel popularProduct;
+  const ProductCart({super.key, required this.position, required this.popularProduct});
   @override
   State<ProductCart> createState() => _ProductCartState();
 }
@@ -24,7 +27,7 @@ class _ProductCartState extends State<ProductCart> {
             borderRadius: BorderRadius.all(Radius.circular(30)),
             image: DecorationImage(
                 fit: BoxFit.cover,
-              image: AssetImage("lib/assets/images/food.jpg")              
+              image: AssetImage(widget.imgPath)              
             )
           ),
         ),
@@ -59,11 +62,11 @@ class _ProductCartState extends State<ProductCart> {
                     children: <Widget>[
                       Wrap(
                         children: 
-                          List.generate(5, (index) => Icon(Icons.star_rate_rounded ,size: 18,color: Colors.green,) ),
+                          List.generate(widget.popularProduct.stars, (index) => Icon(Icons.star_rate_rounded ,size: 18,color: Colors.green,) ),
                       ),
                       SizedBox(width: 10),
                       Text(
-                        "5.0",
+                        widget.popularProduct.stars.toString(),
                         style: TextStyle(color: Colors.grey,fontSize: 13),
                       ),
                       SizedBox(width: 10),
