@@ -4,16 +4,11 @@ import 'package:ecommerce_app/src/models/product_model.dart';
 import 'package:ecommerce_app/src/views/widgets/icon_and_text_widget.dart';
 import 'package:flutter/material.dart';
 
-class ProductCart extends StatefulWidget {
+class ProductCart extends StatelessWidget {
   final String imgPath = "lib/assets/images/food.jpg";
   final int position;
   final ProductModel popularProduct;
   const ProductCart({super.key, required this.position, required this.popularProduct});
-  @override
-  State<ProductCart> createState() => _ProductCartState();
-}
-
-class _ProductCartState extends State<ProductCart> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -27,7 +22,7 @@ class _ProductCartState extends State<ProductCart> {
             borderRadius: BorderRadius.all(Radius.circular(30)),
             image: DecorationImage(
                 fit: BoxFit.cover,
-              image: AssetImage(widget.imgPath)              
+              image: AssetImage(imgPath)              
             )
           ),
         ),
@@ -53,20 +48,20 @@ class _ProductCartState extends State<ProductCart> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Chiness Side",
+                    popularProduct.name,
                     style: TextStyle(
-                      fontSize: 23
+                      fontSize: 18
                     ),
                   ),
                   Row(
                     children: <Widget>[
                       Wrap(
                         children: 
-                          List.generate(widget.popularProduct.stars, (index) => Icon(Icons.star_rate_rounded ,size: 18,color: Colors.green,) ),
+                          List.generate(popularProduct.stars, (index) => Icon(Icons.star_rate_rounded ,size: 18,color: Colors.green,) ),
                       ),
                       SizedBox(width: 10),
                       Text(
-                        widget.popularProduct.stars.toString(),
+                        popularProduct.stars.toString(),
                         style: TextStyle(color: Colors.grey,fontSize: 13),
                       ),
                       SizedBox(width: 10),
@@ -102,9 +97,4 @@ class _ProductCartState extends State<ProductCart> {
       ],
     );
   }
-
-
-
-
-
 }

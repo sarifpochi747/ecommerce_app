@@ -13,4 +13,5 @@ class AppConstants{
   static const String POPULAR_PRODUCT_URL = "/api/v1/products/popular";
   static const String RECOMMENED_PRODUCT_URL = "/api/v1/products/recommended";
 
+  static const int MAX_PRODUCT_CART = 20;
 }

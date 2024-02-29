@@ -5,7 +5,6 @@ import 'package:ecommerce_app/src/Routers/routers.dart';
 import 'package:ecommerce_app/src/controllers/popular_product_controller.dart';
 import 'package:ecommerce_app/src/models/product_model.dart';
 import 'package:ecommerce_app/src/views/pages/product/product_cart.dart';
-import 'package:ecommerce_app/src/views/pages/product/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,19 +51,21 @@ class _ProductListState extends State<ProductList> {
                 strokeWidth: 10,
               ),
             ):
-            GestureDetector(
-              onTap: (){
-                Get.toNamed(Routers.productDetail);
-              },
-              child: PageView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: popularProducts.popularProductList.length,
-                controller: _pageController,
-                itemBuilder: (context,position){
-                return ProductCart(position:position,popularProduct: popularProducts.popularProductList.elementAt(position));
-              
-              }),
-            )
+            PageView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: popularProducts.popularProductList.length,
+              controller: _pageController,
+              itemBuilder: (context,position){
+              return GestureDetector(
+                onTap: (){
+                  Get.toNamed(Routers.getProductDetail(position));
+                },
+                child: ProductCart(
+                  position:position,
+                  popularProduct: popularProducts.popularProductList.elementAt(position)
+                  )
+              );
+            })
           );
         }),
         

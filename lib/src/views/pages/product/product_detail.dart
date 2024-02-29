@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:ecommerce_app/src/app.dart';
-import 'package:ecommerce_app/src/controllers/total_product_controller.dart';
+import 'package:ecommerce_app/src/Routers/routers.dart';
+import 'package:ecommerce_app/src/controllers/popular_product_controller.dart';
 import 'package:ecommerce_app/src/views/widgets/app_icon.dart';
 import 'package:ecommerce_app/src/views/widgets/expanable_text_widget.dart';
 import 'package:ecommerce_app/src/views/widgets/icon_and_text_widget.dart';
@@ -9,17 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetail extends StatefulWidget {
-  const ProductDetail({super.key});
-
+  final int productId;
+  const ProductDetail({super.key, required this.productId});
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  TotalProductController totalProductController = Get.put(TotalProductController());
-  
   @override
   Widget build(BuildContext context) {
+    dynamic product =  Get.find<PopularProductController>().popularProductList[widget.productId]; 
+    Get.find<PopularProductController>().initQuantity();
     return Scaffold(
       body: Stack(children: <Widget>[
         //icon
@@ -36,9 +36,9 @@ class _ProductDetailState extends State<ProductDetail> {
                     image: AssetImage("lib/assets/images/food.jpg"))),
           ),
         ),
-        Positioned(top: 20, left: 20, right: 20, child: _icons()),
+        Positioned(top: 20, left: 20, right: 20, child: _iconCartItem()),
         Positioned(
-            top: 300, left: 0, right: 0, bottom: 0, child: _detailsProduct()),
+            top: 300, left: 0, right: 0, bottom: 0, child: _detailsProduct(product)),
       ]),
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(20),
@@ -47,30 +47,29 @@ class _ProductDetailState extends State<ProductDetail> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
             color: Colors.grey[300]),
-        child: _button(),
+        child: _button(product),
       ),
     );
   }
 
-  Widget _icons() {
+  Widget _iconCartItem() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         
         GestureDetector(
           onTap: (){
-            Get.offAll(()=>MyApp());
+            Get.offAllNamed(Routers.initial);
           },
           child:AppIcon(icon: Icons.arrow_back_ios_new_rounded),
         ),
         GestureDetector(
           onTap: (){
-            totalProductController.increaseQuantity();
           },
           child: Stack(
             children: <Widget>[
               AppIcon(icon: Icons.shopping_cart_outlined),
-              GetBuilder<TotalProductController>(builder: (totalProductController){
+              GetBuilder<PopularProductController>(builder: (popularProductController){
                 return Positioned(
                   top: 20,
                   left: 20,
@@ -83,7 +82,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       borderRadius: BorderRadius.circular(50)
                     ),
                     child: Center(
-                      child: Text(totalProductController.get().toString(), 
+                      child: Text(popularProductController.cartItem.toString(), 
                         style: TextStyle(fontSize: 15, color: Colors.white ,fontWeight: FontWeight.bold)
                       ),
                     ),
@@ -97,7 +96,7 @@ class _ProductDetailState extends State<ProductDetail> {
     );
   }
 
-  Widget _detailsProduct() {
+  Widget _detailsProduct(dynamic product) {
     return Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       decoration: BoxDecoration(
@@ -108,14 +107,14 @@ class _ProductDetailState extends State<ProductDetail> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Chiness Side",
+            product.name,
             style: TextStyle(fontSize: 23),
           ),
           Row(
             children: <Widget>[
               Wrap(
                 children: List.generate(
-                    5,
+                    product.stars,
                     (index) => Icon(
                           Icons.star_rate_rounded,
                           size: 18,
@@ -124,7 +123,7 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
               SizedBox(width: 10),
               Text(
-                "5.0",
+                product.stars.toString(),
                 style: TextStyle(color: Colors.grey, fontSize: 13),
               ),
               SizedBox(width: 10),
@@ -181,8 +180,8 @@ class _ProductDetailState extends State<ProductDetail> {
           Expanded(
             child: SingleChildScrollView(
               child: ExpanableTextWidget(
-                  text:
-                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."),
+                  text:product.description
+              ),
             ),
           )
         ],
@@ -190,7 +189,9 @@ class _ProductDetailState extends State<ProductDetail> {
     );
   }
 
-  Widget _button() {
+  
+
+  Widget _button(dynamic product) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -201,52 +202,73 @@ class _ProductDetailState extends State<ProductDetail> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              GestureDetector(
-                onTap: (){
-                  totalProductController.decreaseQuantity();
-                },
-                child: SizedBox(
-                  child:Icon(Icons.remove),
-                ),
-              ),
+              decremenButton(),
               SizedBox(
                 width: 15,
               ),
-              GetBuilder<TotalProductController>(builder: (totalProductController){
-                return Text(totalProductController.get().toString(), style: TextStyle(fontSize: 18, color: Colors.black));
-              }),
+              quantityProduct(),
               SizedBox(
                 width: 15,
               ),
-              GestureDetector(
-                onTap: (){
-                  totalProductController.increaseQuantity();
-                },
-                child: SizedBox(
-                  child:Icon(Icons.add),
-                ),
-              ),            
+
+              // add button
+              incrementButton(),            
             ],
           ),
         ),
-        GestureDetector(
-          onTap:(){
-
-          },
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.green[300],
-                borderRadius: BorderRadius.circular(20)),
-            padding: EdgeInsets.all(20),
-            child: Row(
-              children: <Widget>[
-                Text("\$0.08 | Add to cart",
-                    style: TextStyle(fontSize: 18, color: Colors.white))
-              ],
-            ),
-          ),
-        )
+        addToCartButton(product)
       ],
     );
+  }
+
+  GestureDetector addToCartButton(product) {
+    return GestureDetector(
+        onTap:(){
+
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.green[300],
+              borderRadius: BorderRadius.circular(20)),
+          padding: EdgeInsets.all(20),
+          child: Row(
+            children: <Widget>[
+              GetBuilder<PopularProductController>(builder: (popularProductController){
+                return Text("\$${product.price * popularProductController.quantity} | Add to cart",
+                  style: TextStyle(fontSize: 18, color: Colors.white)
+                );
+              })
+            ],
+          ),
+        ),
+      );
+  }
+
+  GetBuilder<PopularProductController> quantityProduct() {
+    return GetBuilder<PopularProductController>(builder: (popularProductController){
+              return Text(popularProductController.quantity.toString(), style: TextStyle(fontSize: 18, color: Colors.black));
+            });
+  }
+
+  GestureDetector incrementButton() {
+    return GestureDetector(
+              onTap: (){
+                Get.find<PopularProductController>().incrementQuantity();
+              },
+              child: SizedBox(
+                child:Icon(Icons.add),
+              ),
+            );
+  }
+
+  GestureDetector decremenButton() {
+    return GestureDetector(
+              onTap: (){
+                Get.find<PopularProductController>().decrementQuantity();
+              },
+              child: SizedBox(
+                child:Icon(Icons.remove),
+              ),
+            );
   }
 }
