@@ -19,7 +19,6 @@ class ApiClient extends GetConnect  {
   Future<Response> fetchData(String path) async {
   try {
     final url = AppConstants.BASE_URL+path;
-    print(url);
     final response = await get(url);
     return response;
   } catch (e) {

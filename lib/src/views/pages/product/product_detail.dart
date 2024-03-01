@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:ecommerce_app/src/Routers/routers.dart';
+import 'package:ecommerce_app/src/controllers/cart_controller.dart';
 import 'package:ecommerce_app/src/controllers/popular_product_controller.dart';
 import 'package:ecommerce_app/src/views/widgets/app_icon.dart';
 import 'package:ecommerce_app/src/views/widgets/expanable_text_widget.dart';
@@ -19,7 +20,7 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     dynamic product =  Get.find<PopularProductController>().popularProductList[widget.productId]; 
-    Get.find<PopularProductController>().initQuantity();
+    Get.find<PopularProductController>().initProduct(Get.find<CartController>());
     return Scaffold(
       body: Stack(children: <Widget>[
         //icon
@@ -59,7 +60,7 @@ class _ProductDetailState extends State<ProductDetail> {
         
         GestureDetector(
           onTap: (){
-            Get.offAllNamed(Routers.initial);
+            Get.toNamed(Routers.initial);
           },
           child:AppIcon(icon: Icons.arrow_back_ios_new_rounded),
         ),
@@ -224,7 +225,7 @@ class _ProductDetailState extends State<ProductDetail> {
   GestureDetector addToCartButton(product) {
     return GestureDetector(
         onTap:(){
-
+          Get.find<PopularProductController>().addItemToCart(product);
         },
         child: Container(
           decoration: BoxDecoration(

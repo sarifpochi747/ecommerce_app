@@ -1,7 +1,7 @@
 
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:ecommerce_app/src/views/pages/cartpage/cartpage.dart';
+import 'package:ecommerce_app/src/views/pages/cartpage/cart_page.dart';
 import 'package:ecommerce_app/src/views/pages/home/homepage.dart';
 import 'package:ecommerce_app/src/views/pages/profilepage/profilepage.dart';
 import 'package:ecommerce_app/src/views/widgets/bottom_nav_widget.dart';
@@ -12,12 +12,6 @@ import 'package:ionicons/ionicons.dart';
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  final List<Widget>  pageList = const [
-    HomePage(),
-    CartPage(),
-    ProfilePage()
-  ];
-  
   @override
   Widget build(BuildContext context) {
   return Scaffold(
