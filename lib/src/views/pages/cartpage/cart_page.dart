@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
+import 'package:ecommerce_app/src/Routers/routers.dart';
+import 'package:ecommerce_app/src/controllers/cart_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -15,16 +18,26 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Column(
           children: <Widget>[
             NavBar(),
-            CartItems(),
-            Divider(),
-            CartItems(),
-            Divider(),
-            CartItems(),
-            Divider()
+            Expanded(
+              child: GetBuilder<CartController>(builder: (cartController) {
+                return ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: cartController.items.length,
+                    itemBuilder: (_, index) {
+                      return Column(
+                        children: [
+                          CartItems(),
+                          Divider(),
+                        ],
+                      );
+                    });
+              }),
+            )
           ],
         ),
       ),
@@ -34,51 +47,56 @@ class _CartPageState extends State<CartPage> {
 
   Widget bottomNavigationBar() {
     return Container(
-      padding: EdgeInsets.fromLTRB(15,15,15,0),
+      padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
       height: 180,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 218, 218, 218),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
-      ),
+          color: Color.fromARGB(255, 218, 218, 218),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       child: Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal" ,style: TextStyle(
-                  fontSize: 18,fontWeight: FontWeight.bold
-                ),
+              Text(
+                "Subtotal",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              Text("\$ 6997",style: TextStyle(
-                  fontSize: 18,fontWeight: FontWeight.bold
-                ),),
+              Text(
+                "\$ 6997",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
-          SizedBox(height: 5),  // Add some space between the rows
+          SizedBox(height: 5), // Add some space between the rows
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Shipping",style: TextStyle(
-                  fontSize: 18,fontWeight: FontWeight.bold
-                ),),
-              Text("\$ 1000",style: TextStyle(
-                  fontSize: 18,fontWeight: FontWeight.bold
-                ),),
+              Text(
+                "Shipping",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "\$ 1000",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ],
-          ),          
-          SizedBox(height: 5),  // A
+          ),
+          SizedBox(height: 5), // A
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total",style: TextStyle(
-                  fontSize: 18,fontWeight: FontWeight.bold
-                ),),
-              Text("\$ 6997",style: TextStyle(
-                  fontSize: 18,fontWeight: FontWeight.bold
-                ),),
+              Text(
+                "Total",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "\$ 6997",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
-          SizedBox(height: 10),  // A
+          SizedBox(height: 10), // A
           Container(
               height: 60,
               width: double.maxFinite,
@@ -126,7 +144,9 @@ class _CartPageState extends State<CartPage> {
       child: Row(
         children: <Widget>[
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routers.initial);
+              },
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 27,

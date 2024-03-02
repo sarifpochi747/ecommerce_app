@@ -12,7 +12,6 @@ class Routers{
   static const String productDetail = "/product-detail";
   static const String carPage = "/cart-items";
   static String getProductDetail(int productId) => "$productDetail?productId=$productId";
-  static String getCartPage() =>"cartPage";
   static List<GetPage> routers = [
     GetPage(
       name: productDetail, 

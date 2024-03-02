@@ -20,7 +20,7 @@ class CartController extends GetxController{
 
   // add to cart
   void addItemToCart(ProductModel productModel,int quantity){
-
+    print(_items.values);
     //check existing product
     if(_items.containsKey(productModel.id)){
       _items.update(productModel.id, (value){

@@ -84,8 +84,6 @@ class PopularProductController extends GetxController {
       );
       _cartItem += _quantity;
       _quantity = 0;
-      print(_cartItem);
-
     }
     update();
   }

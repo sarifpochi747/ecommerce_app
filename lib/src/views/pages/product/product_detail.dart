@@ -66,6 +66,7 @@ class _ProductDetailState extends State<ProductDetail> {
         ),
         GestureDetector(
           onTap: (){
+            Get.toNamed(Routers.carPage);
           },
           child: Stack(
             children: <Widget>[
